@@ -1,0 +1,8 @@
+services:
+  navigatr:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public/config.json:/usr/share/nginx/html/config.json:ro
+      - ./public/apps.json:/usr/share/nginx/html/apps.json:ro

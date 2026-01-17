@@ -13,6 +13,16 @@ You can also place a config.json file in the public directory to customize the h
 
 If config.json is missing or invalid, the default header copy is used.
 
+## Docker Compose
+
+Build and run the container locally:
+
+- Build: `docker compose build`
+- Start: `docker compose up`
+
+The Compose service bind-mounts public/config.json and public/apps.json into
+/usr/share/nginx/html so edits on the host are reflected immediately.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
