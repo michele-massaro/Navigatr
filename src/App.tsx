@@ -183,9 +183,6 @@ function App() {
           <section className="space-y-6">
             <div className="flex items-center justify-between text-sm text-slate-400">
               <span>{services.length} services available</span>
-              <span className="rounded-full border border-slate-800 px-3 py-1">
-                apps.json
-              </span>
             </div>
 
             {services.length === 0 ? (
