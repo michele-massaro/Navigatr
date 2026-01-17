@@ -1,0 +1,26 @@
+[
+  {
+    "id": "plex",
+    "title": "Plex",
+    "description": "Media server",
+    "url": "https://plex.example.local",
+    "logo": "/assets/plex.svg",
+    "category": "Media"
+  },
+  {
+    "id": "home-assistant",
+    "title": "Home Assistant",
+    "description": "Smart home control",
+    "url": "https://home.example.local",
+    "logo": "/assets/home-assistant.svg",
+    "category": "Home"
+  },
+  {
+    "id": "grafana",
+    "title": "Grafana",
+    "description": "Metrics dashboards",
+    "url": "https://grafana.example.local",
+    "logo": "/assets/grafana.svg",
+    "category": "Observability"
+  }
+]
