@@ -92,3 +92,7 @@ Example:
   "subtitle": "Launch your most-used services from a single place and keep everything at a glance."
 }
 ```
+
+## License
+
+[MIT](LICENSE)
