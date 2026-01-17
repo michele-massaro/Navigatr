@@ -4,7 +4,7 @@
     "title": "Plex",
     "description": "Media server",
     "url": "https://plex.example.local",
-    "logo": "/assets/plex.svg",
+    "logo": "vite.svg",
     "category": "Media"
   },
   {
