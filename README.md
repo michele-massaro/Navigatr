@@ -1,94 +1,92 @@
-# React + TypeScript + Vite
+# Navigatr
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Navigatr is a lightweight self-hosted dashboard for launching your most-used services from a single place. The UI loads its configuration at runtime, so you can update services and header copy without rebuilding the app.
+
+## Tech stack
+
+- React + TypeScript
+- Vite + Vitest
+- Tailwind CSS
+- Nginx (production container)
 
 ## Runtime configuration
 
-Place an apps.json file in the public directory. The app fetches /apps.json at runtime to populate the dashboard services.
+Navigatr fetches configuration files at runtime:
 
-You can also place a config.json file in the public directory to customize the header copy. The app fetches /config.json at runtime and reads:
+- `GET /apps.json` for the list of services
+- `GET /config.json` for header copy
 
-- `title`: The main header title
-- `subtitle`: Supporting header text
+During local development, edit the files in public/. In Docker, bind-mount the files into `/usr/share/nginx/html` so the container serves them directly.
 
-If config.json is missing or invalid, the default header copy is used.
+## Local development
+
+1. Install dependencies: `npm install`
+2. Start the dev server: `npm run dev`
+3. Open http://localhost:5173
+
+## Docker
+
+Build the image and run the container:
+
+- Build: `docker build -t navigatr .`
+- Run: `docker run --rm -p 8080:80 \
+-v $(pwd)/public/apps.json:/usr/share/nginx/html/apps.json:ro \
+-v $(pwd)/public/config.json:/usr/share/nginx/html/config.json:ro \
+navigatr`
+
+Then open http://localhost:8080.
 
 ## Docker Compose
 
-Build and run the container locally:
+- Build and start: `docker compose up --build`
 
-- Build: `docker compose build`
-- Start: `docker compose up`
+The Compose service maps port 8080 to the container’s port 80 and bind-mounts the runtime config files.
 
-The Compose service bind-mounts public/config.json and public/apps.json into
-/usr/share/nginx/html so edits on the host are reflected immediately.
+## Tests
 
-Currently, two official plugins are available:
+- Watch mode: `npm run test`
+- Single run: `npm run test:run`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Configuration files
 
-## React Compiler
+### public/apps.json
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+An array of services with the following fields:
 
-## Expanding the ESLint configuration
+- `id` (string, required): Unique identifier.
+- `title` (string, required): Display name.
+- `description` (string, required): Short summary.
+- `url` (string, required): Target URL.
+- `logo` (string, required): Path or URL to the icon.
+- `category` (string, optional): Grouping label.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Example:
 
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
+```json
+[
   {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+    "id": "plex",
+    "title": "Plex",
+    "description": "Media server",
+    "url": "https://plex.example.local",
+    "logo": "/assets/plex.svg",
+    "category": "Media"
+  }
+]
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### public/config.json
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+Header configuration fields:
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+- `title` (string, required): Main header title.
+- `subtitle` (string, required): Supporting header text.
+
+Example:
+
+```json
+{
+  "title": "Home Server Dashboard",
+  "subtitle": "Launch your most-used services from a single place and keep everything at a glance."
+}
 ```
