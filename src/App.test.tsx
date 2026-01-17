@@ -43,7 +43,7 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent(
-        "Configuration file not found. Please add config.json to the public directory.",
+        "Configuration file not found. Please add apps.json to the public directory.",
       );
     });
   });
