@@ -6,3 +6,8 @@ export interface Service {
   logo: string
   category?: string
 }
+
+export interface HeaderConfig {
+  title: string
+  subtitle: string
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Service } from "./types";
+import type { HeaderConfig, Service } from "./types";
 import "./App.css";
 
 type LoadStatus = "loading" | "error" | "success";
@@ -8,15 +8,82 @@ const loadingMessage = "Loading configuration…";
 const notFoundMessage =
   "Configuration file not found. Please add apps.json to the public directory.";
 const invalidJsonMessage = "Configuration file contains invalid JSON.";
+const defaultHeaderConfig: HeaderConfig = {
+  title: "Home Server Dashboard",
+  subtitle:
+    "Launch your most-used services from a single place and keep everything at a glance.",
+};
+
+const isHeaderConfig = (data: unknown): data is HeaderConfig => {
+  if (!data || typeof data !== "object") {
+    return false;
+  }
+
+  const candidate = data as HeaderConfig;
+  return (
+    typeof candidate.title === "string" &&
+    typeof candidate.subtitle === "string"
+  );
+};
 
 function App() {
   const [status, setStatus] = useState<LoadStatus>("loading");
   const [services, setServices] = useState<Service[]>([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [headerConfig, setHeaderConfig] =
+    useState<HeaderConfig>(defaultHeaderConfig);
 
   useEffect(() => {
     let isActive = true;
     const controller = new AbortController();
+
+    const loadHeaderConfig = async () => {
+      try {
+        const response = await fetch("/config.json", {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(
+            `Unable to load header configuration (HTTP ${response.status}).`,
+          );
+        }
+
+        let data: unknown;
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("Header configuration contains invalid JSON.");
+        }
+
+        if (!isHeaderConfig(data)) {
+          throw new Error(
+            "Header configuration must include title and subtitle strings.",
+          );
+        }
+
+        if (!isActive) {
+          return;
+        }
+
+        setHeaderConfig(data);
+      } catch (error) {
+        if (!isActive) {
+          return;
+        }
+
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        console.warn(
+          error instanceof Error
+            ? error.message
+            : "Unable to load header configuration.",
+        );
+        setHeaderConfig(defaultHeaderConfig);
+      }
+    };
 
     const loadConfig = async () => {
       setStatus("loading");
@@ -72,6 +139,7 @@ function App() {
       }
     };
 
+    void loadHeaderConfig();
     void loadConfig();
 
     return () => {
@@ -88,11 +156,10 @@ function App() {
             Navigatr
           </p>
           <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-            Home Server Dashboard
+            {headerConfig.title}
           </h1>
           <p className="max-w-2xl text-sm text-slate-400 sm:text-base">
-            Launch your most-used services from a single place and keep
-            everything at a glance.
+            {headerConfig.subtitle}
           </p>
         </header>
 

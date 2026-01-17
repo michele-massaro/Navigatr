@@ -6,6 +6,13 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Place an apps.json file in the public directory. The app fetches /apps.json at runtime to populate the dashboard services.
 
+You can also place a config.json file in the public directory to customize the header copy. The app fetches /config.json at runtime and reads:
+
+- `title`: The main header title
+- `subtitle`: Supporting header text
+
+If config.json is missing or invalid, the default header copy is used.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
