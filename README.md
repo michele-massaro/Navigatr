@@ -1,3 +1,5 @@
+![Navigatr logo](./public/navigatr_banner.png "Navigatr")
+
 # Navigatr
 
 Navigatr is a lightweight self-hosted dashboard for launching your most-used services from a single place. The UI loads its configuration at runtime, so you can update services and header copy without rebuilding the app.
