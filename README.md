@@ -81,6 +81,16 @@ In the same folder, create a folder named `configuration`, then create the two f
 
 Update the two files according to your needs.
 
+The folder structure should appear like this:
+
+```
+navigatr
+├── configuration
+│   ├── apps.json
+│   └── config.json
+└── docker-compose.yml
+```
+
 Once done, run this in the `navigatr` folder:
 
 ```
@@ -124,11 +134,11 @@ Example:
 ```json
 [
   {
-    "id": "plex",
-    "title": "Plex",
+    "id": "id1",
+    "title": "Name 1",
     "description": "Media server",
-    "url": "https://plex.example.local",
-    "logo": "/assets/plex.svg",
+    "url": "https://change.example.local",
+    "logo": "/configuration/example.svg",
     "category": "Media"
   }
 ]
