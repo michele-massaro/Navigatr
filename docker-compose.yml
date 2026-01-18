@@ -4,5 +4,5 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./public/config.json:/usr/share/nginx/html/config.json:ro
-      - ./public/apps.json:/usr/share/nginx/html/apps.json:ro
+      - ./public/configuration/config.json:/usr/share/nginx/html/configuration/config.json:ro
+      - ./public/configuration/apps.json:/usr/share/nginx/html/configuration/apps.json:ro

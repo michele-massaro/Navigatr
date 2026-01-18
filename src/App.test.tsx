@@ -25,7 +25,7 @@ describe("App", () => {
     };
 
     vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
-      if (input === "/config.json") {
+      if (input === "/configuration/config.json") {
         return Promise.resolve({
           ok: true,
           status: 200,
@@ -51,7 +51,7 @@ describe("App", () => {
 
   it("renders a user-friendly message when config is missing", async () => {
     vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
-      if (input === "/config.json") {
+      if (input === "/configuration/config.json") {
         return Promise.resolve({
           ok: false,
           status: 404,
@@ -70,14 +70,14 @@ describe("App", () => {
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent(
-        "Configuration file not found. Please add apps.json to the public directory.",
+        "Configuration file not found. Please add apps.json to the public/configuration directory.",
       );
     });
   });
 
   it("renders a user-friendly message when config is invalid JSON", async () => {
     vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
-      if (input === "/config.json") {
+      if (input === "/configuration/config.json") {
         return Promise.resolve({
           ok: true,
           status: 200,
@@ -116,7 +116,7 @@ describe("App", () => {
     ];
 
     vi.spyOn(globalThis, "fetch").mockImplementation((input) => {
-      if (input === "/config.json") {
+      if (input === "/configuration/config.json") {
         return Promise.resolve({
           ok: false,
           status: 404,

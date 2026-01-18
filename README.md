@@ -15,10 +15,10 @@ Navigatr is a lightweight self-hosted dashboard for launching your most-used ser
 
 Navigatr fetches configuration files at runtime:
 
-- `GET /apps.json` for the list of services
-- `GET /config.json` for header copy
+- `GET /configuration/apps.json` for the list of services
+- `GET /configuration/config.json` for header copy
 
-During local development, edit the files in public/. In Docker, bind-mount the files into `/usr/share/nginx/html` so the container serves them directly.
+During local development, edit the files in public/configuration/. In Docker, bind-mount the files into `/usr/share/nginx/html/configuration` so the container serves them directly.
 
 ## Local development
 
@@ -32,8 +32,8 @@ Build the image and run the container:
 
 - Build: `docker build -t navigatr .`
 - Run: `docker run --rm -p 8080:80 \
--v $(pwd)/public/apps.json:/usr/share/nginx/html/apps.json:ro \
--v $(pwd)/public/config.json:/usr/share/nginx/html/config.json:ro \
+-v $(pwd)/public/configuration/apps.json:/usr/share/nginx/html/configuration/apps.json:ro \
+-v $(pwd)/public/configuration/config.json:/usr/share/nginx/html/configuration/config.json:ro \
 navigatr`
 
 Then open http://localhost:8080.
@@ -51,7 +51,7 @@ The Compose service maps port 8080 to the container’s port 80 and bind-mounts 
 
 ## Configuration files
 
-### public/apps.json
+### public/configuration/apps.json
 
 An array of services with the following fields:
 
@@ -77,7 +77,7 @@ Example:
 ]
 ```
 
-### public/config.json
+### public/configuration/config.json
 
 Header configuration fields:
 
