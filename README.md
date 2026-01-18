@@ -30,9 +30,9 @@ During local development, edit the files in public/configuration/. In Docker, bi
 
 ## Installation
 
-### Docker Compose (Recomended)
+### Docker Compose (Recommended)
 
-Create a new folder called `navigatr`, inside of this folder create a file docker-compose.yml with this content:
+Create a new folder called `navigatr`. Inside this folder, create a file named docker-compose.yml with this content:
 
 ```yml
 services:
@@ -45,7 +45,7 @@ services:
       - ./configuration:/usr/share/nginx/html/configuration/
 ```
 
-In the same folder create a folder `configuration` and inside of it create the two files `apps.json` and `config.json` with the following structure:
+In the same folder, create a folder named `configuration`, then create the two files `apps.json` and `config.json` with the following structure:
 
 #### apps.json
 
@@ -79,15 +79,15 @@ In the same folder create a folder `configuration` and inside of it create the t
 }
 ```
 
-Change the two files accordingly to your needs.
+Update the two files according to your needs.
 
-Once done run it with:
+Once done, run this in the `navigatr` folder:
 
 ```
 docker compose up -d
 ```
 
-You will reach the page at the link http://localhost:8080
+You can reach the page at http://localhost:8080.
 
 ### Docker
 
