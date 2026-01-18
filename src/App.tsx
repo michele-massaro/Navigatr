@@ -187,7 +187,8 @@ function App() {
 
             {services.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-slate-700 bg-slate-900/40 p-8 text-center text-slate-400">
-                Add services to configuration/apps.json to populate your dashboard.
+                Add services to configuration/apps.json to populate your
+                dashboard.
               </div>
             ) : (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

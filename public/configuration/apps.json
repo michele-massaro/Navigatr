@@ -1,23 +1,23 @@
 [
   {
-    "id": "plex",
-    "title": "Plex",
+    "id": "id1",
+    "title": "Name 1",
     "description": "Media server",
-    "url": "https://plex.example.local",
+    "url": "https://change.example.local",
     "logo": "/configuration/example.svg",
     "category": "Media"
   },
   {
-    "id": "home-assistant",
-    "title": "Home Assistant",
+    "id": "id2",
+    "title": "Name 2",
     "description": "Smart home control",
     "url": "https://home.example.local",
     "logo": "/configuration/example.svg",
     "category": "Home"
   },
   {
-    "id": "grafana",
-    "title": "Grafana",
+    "id": "id3",
+    "title": "Name 3",
     "description": "Metrics dashboards",
     "url": "https://grafana.example.local",
     "logo": "/configuration/example.svg",

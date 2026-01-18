@@ -1,8 +1,10 @@
-![Navigatr logo](./public/navigatr_banner.png "Navigatr")
+![Navigatr logo](./images/navigatr_banner.png "Navigatr")
 
 # Navigatr
 
 Navigatr is a lightweight self-hosted dashboard for launching your most-used services from a single place. The UI loads its configuration at runtime, so you can update services and header copy without rebuilding the app.
+
+![Example image](./images/example.png "Example image")
 
 ## Tech stack
 
@@ -26,7 +28,68 @@ During local development, edit the files in public/configuration/. In Docker, bi
 2. Start the dev server: `npm run dev`
 3. Open http://localhost:5173
 
-## Docker
+## Installation
+
+### Docker Compose (Recomended)
+
+Create a new folder called `navigatr`, inside of this folder create a file docker-compose.yml with this content:
+
+```yml
+services:
+  navigatr:
+    image: micheleinlab/navigatr:latest
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./configuration:/usr/share/nginx/html/configuration/
+```
+
+In the same folder create a folder `configuration` and inside of it create the two files `apps.json` and `config.json` with the following structure:
+
+#### apps.json
+
+```json
+[
+  {
+    "id": "id1",
+    "title": "Name 1",
+    "description": "Media server",
+    "url": "https://change.example.local",
+    "logo": "/configuration/example.svg",
+    "category": "Media"
+  },
+  {
+    "id": "id2",
+    "title": "Name 2",
+    "description": "Smart home control",
+    "url": "https://home.example.local",
+    "logo": "/configuration/example.svg",
+    "category": "Home"
+  }
+]
+```
+
+#### config.json
+
+```json
+{
+  "title": "Home Server Dashboard",
+  "subtitle": "Launch your most-used services from a single place and keep everything at a glance."
+}
+```
+
+Change the two files accordingly to your needs.
+
+Once done run it with:
+
+```
+docker compose up -d
+```
+
+You will reach the page at the link http://localhost:8080
+
+### Docker
 
 Build the image and run the container:
 
@@ -37,12 +100,6 @@ Build the image and run the container:
 navigatr`
 
 Then open http://localhost:8080.
-
-## Docker Compose
-
-- Build and start: `docker compose up --build`
-
-The Compose service maps port 8080 to the container’s port 80 and bind-mounts the runtime config files.
 
 ## Tests
 
