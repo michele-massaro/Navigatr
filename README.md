@@ -57,7 +57,8 @@ In the same folder, create a folder named `configuration`, then create the two f
     "description": "Media server",
     "url": "https://change.example.local",
     "logo": "/configuration/example.svg",
-    "category": "Media"
+    "category": "Media",
+    "section": "Local services"
   },
   {
     "id": "id2",
@@ -127,7 +128,8 @@ An array of services with the following fields:
 - `description` (string, required): Short summary.
 - `url` (string, required): Target URL.
 - `logo` (string, required): Path or URL to the icon.
-- `category` (string, optional): Grouping label.
+- `category` (string, optional): Category label.
+- `section` (string, optional): Section heading for grouping services on the dashboard. Services with the same section value are displayed together under that heading. Services without a section are shown ungrouped.
 
 Example:
 
@@ -139,7 +141,8 @@ Example:
     "description": "Media server",
     "url": "https://change.example.local",
     "logo": "/configuration/example.svg",
-    "category": "Media"
+    "category": "Media",
+    "section": "Entertainment"
   }
 ]
 ```
