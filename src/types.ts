@@ -5,6 +5,7 @@ export interface Service {
   url: string
   logo: string
   category?: string
+  section?: string
 }
 
 export interface HeaderConfig {

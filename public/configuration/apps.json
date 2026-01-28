@@ -5,7 +5,8 @@
     "description": "Media server",
     "url": "https://change.example.local",
     "logo": "/configuration/example.svg",
-    "category": "Media"
+    "category": "Media",
+    "section": "Entertainment"
   },
   {
     "id": "id2",
@@ -21,6 +22,24 @@
     "description": "Metrics dashboards",
     "url": "https://grafana.example.local",
     "logo": "/configuration/example.svg",
-    "category": "Observability"
+    "category": "Observability",
+    "section": "Monitoring"
+  },
+  {
+    "id": "id4",
+    "title": "Name 4",
+    "description": "Container management",
+    "url": "https://portainer.example.local",
+    "logo": "/configuration/example.svg",
+    "category": "Infrastructure",
+    "section": "Monitoring"
+  },
+  {
+    "id": "id5",
+    "title": "Name 5",
+    "description": "Password manager",
+    "url": "https://vault.example.local",
+    "logo": "/configuration/example.svg",
+    "category": "Security"
   }
 ]

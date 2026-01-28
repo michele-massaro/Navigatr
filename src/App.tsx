@@ -1,8 +1,48 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { HeaderConfig, Service } from "./types";
 import "./App.css";
 
 type LoadStatus = "loading" | "error" | "success";
+
+interface GroupedServices {
+  section: string;
+  services: Service[];
+}
+
+/**
+ * Groups services by their section field.
+ * - Services without a section (or with empty string) are grouped first with section = ""
+ * - Named sections follow in alphabetical order
+ */
+export function groupServicesBySection(services: Service[]): GroupedServices[] {
+  const groups = new Map<string, Service[]>();
+
+  for (const service of services) {
+    const section = service.section?.trim() || "";
+    const existing = groups.get(section) || [];
+    existing.push(service);
+    groups.set(section, existing);
+  }
+
+  const result: GroupedServices[] = [];
+
+  // Add ungrouped services first (empty section)
+  const ungrouped = groups.get("");
+  if (ungrouped) {
+    result.push({ section: "", services: ungrouped });
+    groups.delete("");
+  }
+
+  // Add named sections in alphabetical order
+  const sortedSections = Array.from(groups.keys()).sort((a, b) =>
+    a.localeCompare(b),
+  );
+  for (const section of sortedSections) {
+    result.push({ section, services: groups.get(section)! });
+  }
+
+  return result;
+}
 
 const loadingMessage = "Loading configuration…";
 const notFoundMessage =
@@ -148,6 +188,14 @@ function App() {
     };
   }, []);
 
+  const groupedServices = useMemo(
+    () => groupServicesBySection(services),
+    [services],
+  );
+
+  // Check if we have any named sections (for conditional header rendering)
+  const hasNamedSections = groupedServices.some((g) => g.section !== "");
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-12">
@@ -191,39 +239,53 @@ function App() {
                 dashboard.
               </div>
             ) : (
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {services.map((service) => (
-                  <a
-                    key={service.id}
-                    href={service.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-900/40 p-6 transition hover:-translate-y-1 hover:border-slate-600 hover:bg-slate-900/70"
+              <div className="space-y-8">
+                {groupedServices.map((group) => (
+                  <div
+                    key={group.section || "__ungrouped__"}
+                    className="space-y-4"
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
-                        <img
-                          src={service.logo}
-                          alt={service.title}
-                          className="h-10 w-10 object-contain"
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <h2 className="text-lg font-semibold text-white">
-                          {service.title}
-                        </h2>
-                        <p className="text-sm text-slate-400">
-                          {service.description}
-                        </p>
-                      </div>
+                    {hasNamedSections && group.section && (
+                      <h3 className="text-sm font-medium uppercase tracking-wider text-slate-500">
+                        {group.section}
+                      </h3>
+                    )}
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                      {group.services.map((service) => (
+                        <a
+                          key={service.id}
+                          href={service.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="group flex flex-col gap-4 rounded-2xl border border-slate-800 bg-slate-900/40 p-6 transition hover:-translate-y-1 hover:border-slate-600 hover:bg-slate-900/70"
+                        >
+                          <div className="flex items-start gap-4">
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-700 bg-slate-950">
+                              <img
+                                src={service.logo}
+                                alt={service.title}
+                                className="h-10 w-10 object-contain"
+                              />
+                            </div>
+                            <div className="space-y-1">
+                              <h2 className="text-lg font-semibold text-white">
+                                {service.title}
+                              </h2>
+                              <p className="text-sm text-slate-400">
+                                {service.description}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between text-xs text-slate-500">
+                            <span>{service.category ?? "General"}</span>
+                            <span className="rounded-full border border-slate-700 px-3 py-1 text-slate-300">
+                              Open
+                            </span>
+                          </div>
+                        </a>
+                      ))}
                     </div>
-                    <div className="flex items-center justify-between text-xs text-slate-500">
-                      <span>{service.category ?? "General"}</span>
-                      <span className="rounded-full border border-slate-700 px-3 py-1 text-slate-300">
-                        Open
-                      </span>
-                    </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             )}
